@@ -18,5 +18,6 @@ module.exports = {
     '@typescript-eslint/promise-function-async': 'off',
     'react/display-name': 'off',
     '@typescript-eslint/consistent-type-definitions': 'off',
+    'react/prop-types': 'off',
   },
 };

@@ -1,5 +1,4 @@
 import { S } from '@mobily/ts-belt';
-import { useMemo } from 'react';
 import { useSearchParams } from 'react-router-dom';
 
 export const useQueryParam = (queryParam: string) => {
@@ -15,9 +14,5 @@ export const useQueryParam = (queryParam: string) => {
     }
   };
 
-  const h = useMemo(() => {
-    return [value, setValue] as const;
-  }, [value, setValue]);
-
-  return h;
+  return [value, setValue] as const;
 };

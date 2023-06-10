@@ -2,21 +2,21 @@ import axios from 'axios';
 import { API } from './config';
 import { type ApiParams } from '../types';
 
-const getBeer = async (id: string) => await axios.get(`${API}breweries/${id}`);
+const getBeer = (id: string) => axios.get(`${API}breweries/${id}`);
 
-const getBeerList = async (params?: ApiParams) => await axios.get(`${API}breweries/`, { params });
+const getBeerList = (params?: ApiParams) => axios.get(`${API}breweries/`, { params });
 
 /**
  * @param size Int between 1 and 50. Default is 3.
  * @returns New promise with api call for random beer list.
  */
-const getRandomBeerList = async (size = 3) =>
-  await axios.get(`${API}breweries/random`, {
+const getRandomBeerList = (size = 3) =>
+  axios.get(`${API}breweries/random`, {
     params: { size },
   });
 
-const searchBeerList = async (query: string, isAutoComplete = false) =>
-  await axios.get(`${API}breweries/${isAutoComplete ? 'autocomplete' : 'search'}`, {
+const searchBeerList = (query: string, isAutoComplete = false) =>
+  axios.get(`${API}breweries/${isAutoComplete ? 'autocomplete' : 'search'}`, {
     params: { query },
   });
 

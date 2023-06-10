@@ -1,17 +1,23 @@
+import { ThemeProvider } from '@emotion/react';
+import CssBaseline from '@mui/material/CssBaseline';
 import React from 'react';
 import ReactDOM from 'react-dom/client';
+import { EnvsWrapper } from './common/envs/EnvsWrapper';
 import Router from './router';
-import CssBaseline from '@mui/material/CssBaseline';
-import { ThemeProvider } from '@emotion/react';
-import { theme } from './styles/theme';
 import './styles/global.css';
+import { theme } from './styles/theme';
+import { QueryClient, QueryClientProvider } from 'react-query';
 
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
 root.render(
-  <React.StrictMode>
+  <EnvsWrapper>
     <CssBaseline />
-    <ThemeProvider theme={theme}>
-      <Router />
-    </ThemeProvider>
-  </React.StrictMode>,
+    <QueryClientProvider
+      client={new QueryClient({ defaultOptions: { queries: { retryOnMount: false, retry: false } } })}
+    >
+      <ThemeProvider theme={theme}>
+        <Router />
+      </ThemeProvider>
+    </QueryClientProvider>
+  </EnvsWrapper>,
 );

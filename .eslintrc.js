@@ -10,11 +10,13 @@ module.exports = {
     ecmaVersion: 'latest',
     sourceType: 'module',
   },
-  plugins: ['react'],
+  plugins: ['react', 'only-warn'],
   rules: {
     '@typescript-eslint/explicit-function-return-type': 'off',
     '@typescript-eslint/consistent-type-imports': 'off',
-    '@typescript-eslint/consistent-type-definitions': 'off',
     'react/react-in-jsx-scope': 'off',
+    '@typescript-eslint/promise-function-async': 'off',
+    'react/display-name': 'off',
+    '@typescript-eslint/consistent-type-definitions': 'off',
   },
 };

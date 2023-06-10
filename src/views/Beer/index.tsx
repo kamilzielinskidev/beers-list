@@ -8,7 +8,11 @@ const Beer = () => {
   const [beer, setBeer] = useState<IBeer>();
 
   useEffect(() => {
-    fetchData.bind(this, setBeer, id);
+    fetchData(id)
+      ?.then((data) => {
+        setBeer(data.data);
+      })
+      .catch(console.error);
   }, [id]);
 
   return (

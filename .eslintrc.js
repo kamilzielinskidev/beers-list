@@ -19,5 +19,6 @@ module.exports = {
     'react/display-name': 'off',
     '@typescript-eslint/consistent-type-definitions': 'off',
     'react/prop-types': 'off',
+    '@typescript-eslint/no-floating-promises': 'off',
   },
 };

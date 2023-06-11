@@ -1,42 +1,35 @@
-import { A } from '@mobily/ts-belt';
-import { Alert, Button, Checkbox, Link, List, Paper } from '@mui/material';
+import { Grid, Paper, Typography } from '@mui/material';
 import { FC, memo } from 'react';
-import { Link as RouterLink } from 'react-router-dom';
 import { useSavedBeersStore } from '../../common/stores/useSavedBeersStore';
-
-const BeersList: FC = memo(() => {
-  console.log('Saved BeersList');
-  const { beers } = useSavedBeersStore();
-
-  if (A.isEmpty(beers)) {
-    return <Alert severity="warning">No saved items</Alert>;
-  }
-
-  return (
-    <List>
-      {beers.map((beer) => (
-        <li key={beer.id}>
-          <Checkbox />
-          <Link component={RouterLink} to={`/beer/${beer.id}`}>
-            {beer.name}
-          </Link>
-        </li>
-      ))}
-    </List>
-  );
-});
+import { styles } from './SavedBeers.styles';
+import { ConfirmationPrompt } from './ui/ConfirmationPrompt';
+import { LinksList } from './ui/LinksList';
 
 export const SavedBeers: FC = memo(() => {
   console.log('SavedBeers');
+  const { beers, clear } = useSavedBeersStore();
+
+  const parsedBeers = beers.map((beer) => ({
+    id: beer.id,
+    label: beer.name,
+    url: `/beer/${beer.id}`,
+  }));
 
   return (
-    <Paper>
-      <h3>Saved items</h3>
-      <Button variant="contained" size="small">
-        Remove all items
-      </Button>
-
-      <BeersList />
+    <Paper sx={styles.paper}>
+      <Grid container sx={styles.container}>
+        <Grid item container sx={styles.headContainer}>
+          <Typography sx={styles.title}>Saved items</Typography>
+          <ConfirmationPrompt
+            label="Delete saved"
+            message="Are you sure you want to delete saved beers?"
+            onOk={clear}
+          />
+        </Grid>
+        <Grid item sx={styles.listContainer}>
+          <LinksList items={parsedBeers} />
+        </Grid>
+      </Grid>
     </Paper>
   );
 });

@@ -12,7 +12,6 @@ import { SearchFilter } from './ui/SearchFilter';
 
 export const RandomBeersList: FC = memo(() => {
   console.log('RandomBeersList');
-
   const [searchParams, setSearchParams] = useQueryParam('search');
   const [selectedBeers, setSelectedBeers] = useState<Beer[]>([]);
   const { data, status, refetch } = useRandomBeerListTE({ search: searchParams });

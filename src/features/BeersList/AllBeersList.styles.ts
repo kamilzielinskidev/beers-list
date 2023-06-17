@@ -10,4 +10,7 @@ export const styles = createStylesMap({
   paginationContainer: {
     justifyContent: 'space-between',
   },
+  headerContainer: {
+    alignItems: 'center',
+  },
 });

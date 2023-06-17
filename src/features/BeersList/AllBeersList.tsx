@@ -1,35 +1,54 @@
-import { A, S } from '@mobily/ts-belt';
-import { SportsBar } from '@mui/icons-material';
+import { A, G } from '@mobily/ts-belt';
+import { ArrowDownward, ArrowUpward, SportsBar } from '@mui/icons-material';
 import {
   Alert,
   Avatar,
   Button,
   CircularProgress,
   Grid,
+  IconButton,
   List,
   ListItemAvatar,
   ListItemButton,
   ListItemText,
 } from '@mui/material';
 import { FC, memo, useCallback } from 'react';
-import { Link as RouterLink } from 'react-router-dom';
-import { useQueryParam } from '../../common/hooks/useQueryParam';
+import { Link as RouterLink, useSearchParams } from 'react-router-dom';
 import { useBeerListTE } from '../RandomBeersList/hooks/useBeerListTE';
 import { styles } from './AllBeersList.styles';
 
 export const AllBeersList: FC = memo(() => {
   console.log('AllBeersList');
-  const [page, setPage] = useQueryParam('page');
-  const parsedPage = S.isEmpty(page) ? 1 : parseInt(page);
-  const { data, status } = useBeerListTE({ limit: 10, page: parsedPage });
+  // TODO: handle it via separate hook or page context, current useQueryParam does not work
+  const [searchParams, setSearchParams] = useSearchParams();
+
+  const pageParam = searchParams.get('page');
+  const sortingParam = searchParams.get('sorting');
+
+  const parsedPage = G.isNullable(pageParam) ? 1 : parseInt(pageParam);
+  const parsedSorting = G.isNullable(sortingParam) ? 'ASC' : sortingParam === 'desc' ? 'DESC' : 'ASC';
+
+  const { data, status } = useBeerListTE({ limit: 10, page: parsedPage }, parsedSorting);
 
   const handleNextPage = useCallback(() => {
-    setPage(`${parsedPage + 1}`);
-  }, [parsedPage]);
+    searchParams.set('page', `${parsedPage + 1}`);
+    setSearchParams(searchParams);
+  }, [searchParams, parsedPage]);
 
   const handlePreviousPage = useCallback(() => {
-    setPage(`${parsedPage - 1}`);
-  }, [parsedPage]);
+    searchParams.set('page', `${parsedPage - 1}`);
+    setSearchParams(searchParams);
+  }, [searchParams, parsedPage]);
+
+  const handleSortAsc = useCallback(() => {
+    searchParams.set('sorting', `asc`);
+    setSearchParams(searchParams);
+  }, [searchParams]);
+
+  const handleSortDesc = useCallback(() => {
+    searchParams.set('sorting', `desc`);
+    setSearchParams(searchParams);
+  }, [searchParams]);
 
   const isFirstPage = parsedPage === 1;
 
@@ -47,6 +66,15 @@ export const AllBeersList: FC = memo(() => {
 
   return (
     <Grid container sx={styles.container}>
+      <Grid container>
+        <IconButton disabled={parsedSorting === 'ASC'} onClick={handleSortAsc}>
+          <ArrowUpward />
+        </IconButton>
+        <IconButton disabled={parsedSorting === 'DESC'} onClick={handleSortDesc}>
+          <ArrowDownward />
+        </IconButton>
+      </Grid>
+
       <List>
         {data.map((beer) => (
           <ListItemButton key={beer.id} component={RouterLink} to={`/beer/${beer.id}`}>

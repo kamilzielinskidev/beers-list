@@ -10,5 +10,5 @@ type Where = {
 export const useBeerListTE = (where: Where, sort?: 'ASC' | 'DESC') => {
   const { search, page, limit } = where;
 
-  return useQuery(['beerList', search, page, limit], () => fetchBeers(where, sort));
+  return useQuery(['beerList', search, page, limit, sort], () => fetchBeers(where, sort));
 };

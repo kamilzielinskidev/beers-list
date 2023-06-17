@@ -2,6 +2,8 @@ import { ThemeProvider } from '@emotion/react';
 import CssBaseline from '@mui/material/CssBaseline';
 import ReactDOM from 'react-dom/client';
 import { QueryClient, QueryClientProvider } from 'react-query';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import { EnvsWrapper } from './common/envs/EnvsWrapper';
 import Router from './router';
 import './styles/global.css';
@@ -10,6 +12,7 @@ import { theme } from './styles/theme';
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
 root.render(
   <EnvsWrapper>
+    <ToastContainer />
     <CssBaseline />
     <QueryClientProvider
       client={

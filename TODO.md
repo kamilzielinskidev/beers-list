@@ -1,7 +1,10 @@
+- sorting
+- random list page optimization
+
+
+
 - tests
-- single beer add to saved
 - handle last page
   - fetch currenct page and next one
     - better UX
     - able to check if the page is last
-- random list page optimization

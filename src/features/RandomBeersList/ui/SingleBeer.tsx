@@ -15,7 +15,7 @@ export const SingleBeer: FC<{
     <Grid>
       <Checkbox
         value={checked}
-        onChange={(e) => {
+        onChange={() => {
           setChecked();
         }}
       />
@@ -23,6 +23,7 @@ export const SingleBeer: FC<{
         onClick={() => {
           onClick();
         }}
+        sx={{ cursor: 'pointer' }}
       >
         {data.name}
       </Link>

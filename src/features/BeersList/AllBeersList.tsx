@@ -11,25 +11,25 @@ import {
   ListItemButton,
   ListItemText,
 } from '@mui/material';
-import { FC } from 'react';
+import { FC, memo, useCallback } from 'react';
 import { Link as RouterLink } from 'react-router-dom';
 import { useQueryParam } from '../../common/hooks/useQueryParam';
 import { useBeerListTE } from '../RandomBeersList/hooks/useBeerListTE';
 import { styles } from './AllBeersList.styles';
 
-export const AllBeersList: FC = () => {
+export const AllBeersList: FC = memo(() => {
   console.log('AllBeersList');
   const [page, setPage] = useQueryParam('page');
   const parsedPage = S.isEmpty(page) ? 1 : parseInt(page);
   const { data, status } = useBeerListTE({ limit: 10, page: parsedPage });
 
-  const handleNextPage = () => {
+  const handleNextPage = useCallback(() => {
     setPage(`${parsedPage + 1}`);
-  };
+  }, [parsedPage]);
 
-  const handlePreviousPage = () => {
+  const handlePreviousPage = useCallback(() => {
     setPage(`${parsedPage - 1}`);
-  };
+  }, [parsedPage]);
 
   const isFirstPage = parsedPage === 1;
 
@@ -68,4 +68,4 @@ export const AllBeersList: FC = () => {
       </Grid>
     </Grid>
   );
-};
+});

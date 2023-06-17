@@ -20,7 +20,7 @@ export const LinksList: FC<{ items: Item[] }> = memo(({ items }) => {
     <List>
       {items.map((item) => (
         <ListItem key={item.id}>
-          <Link component={RouterLink} to={`/item/${item.url}`}>
+          <Link component={RouterLink} to={`${item.url}`}>
             {item.label}
           </Link>
         </ListItem>

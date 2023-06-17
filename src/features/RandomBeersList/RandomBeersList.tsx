@@ -9,6 +9,7 @@ import { styles } from './RandomBeersList.styles';
 import { useRandomBeerListTE } from './hooks/useRandomBeerListTE';
 import { BeersSelectList } from './ui/BeersSelectList';
 import { SearchFilter } from './ui/SearchFilter';
+import { toast } from 'react-toastify';
 
 export const RandomBeersList: FC = memo(() => {
   console.log('RandomBeersList');
@@ -22,19 +23,27 @@ export const RandomBeersList: FC = memo(() => {
     setSearchParams(v);
   }, []);
 
-  const handleSelect = (beer: Beer) => {
-    if (selectedBeers.includes(beer)) {
-      setSelectedBeers((selectedBeers) => selectedBeers.filter((selectedBeer) => selectedBeer !== beer));
-    } else {
-      setSelectedBeers((selectedBeers) => [...selectedBeers, beer]);
-    }
-  };
+  const handleSelect = useCallback(
+    (beer: Beer) => {
+      if (selectedBeers.includes(beer)) {
+        setSelectedBeers((selectedBeers) => selectedBeers.filter((selectedBeer) => selectedBeer !== beer));
+      } else {
+        setSelectedBeers((selectedBeers) => [...selectedBeers, beer]);
+      }
+    },
+    [selectedBeers],
+  );
 
   const handleSave = () => {
     addManyBeer(selectedBeers);
     setSelectedBeers([]);
     refetch();
+    toast.success('Beers saved');
   };
+
+  const handleItemClick = useCallback((item: Beer) => {
+    navigate(`/beer/${item.id}`);
+  }, []);
 
   if (status === 'loading' || status === 'idle') {
     return <CircularProgress />;
@@ -64,9 +73,7 @@ export const RandomBeersList: FC = memo(() => {
             data={filteredData}
             value={selectedBeers}
             onSelect={handleSelect}
-            onItemClick={(item) => {
-              navigate(`/beer/${item.id}`);
-            }}
+            onItemClick={handleItemClick}
           />
         </Grid>
         {A.isEmpty(selectedBeers) ? null : (
